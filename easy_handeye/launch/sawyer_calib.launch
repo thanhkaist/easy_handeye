@@ -1,0 +1,30 @@
+<launch>
+  <!-- (start your robot's MoveIt! stack, e.g. include its moveit_planning_execution.launch) -->
+  <!-- (start your tracking system's ROS driver) -->
+  <include file="$(find easy_handeye)/launch/ar.launch"/>
+
+  <!-- Load previous calib-->
+  <include file="$(find easy_handeye)/launch/publish.launch">
+    <!--arg name="namespace" value="my_sawyer_calib"/--> <!-- use the same namespace that you used during calibration! -->
+    <arg name="eye_on_hand" value="false"/>
+    <arg name="robot_base_frame" value="base"/>
+
+    <!-- fill in the following parameters according to your tracking system's published tf frames -->
+    <arg name="tracking_base_frame" value="camera_color_optical_frame"/>
+
+  </include>
+  <include file="$(find easy_handeye)/launch/calibrate.launch">
+    <arg name="eye_on_hand" value="false"/>
+    <arg name="publish_dummy" value="false"/>
+    <arg name="freehand_robot_movement" default="true"/>
+    <!--arg name="namespace" value="my_sawyer_calib"/-->
+
+    <!-- fill in the following parameters according to your robot's published tf frames -->
+    <arg name="robot_base_frame" value="base"/>
+    <arg name="robot_effector_frame" value="right_hand"/>
+
+    <!-- fill in the following parameters according to your tracking system's published tf frames -->
+    <arg name="tracking_base_frame" value="camera_color_optical_frame"/>
+    <arg name="tracking_marker_frame" value="ar_marker_6"/>
+  </include>
+</launch>
